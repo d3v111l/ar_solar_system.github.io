@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gravity AR model</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+    <a-scene embedded arjs>
+
+      <!-- Маркер Hiro: Сонце, Меркурій, Венера -->
+      <a-marker preset="hiro" id="hiro-marker">
+        <!-- Сонце -->
+        <a-sphere src="planets/sun.jpg" radius="0.2" position="0 0 0"></a-sphere>
+
+        <!-- Орбіта Меркурія -->
+        <a-entity id="hiro-mercury-orbit" rotation="0 0 0">
+          <a-sphere src="planets/mercury.jpg" radius="0.05" position="0.5 0 0"></a-sphere>
+        </a-entity>
+
+        <!-- Орбіта Венери -->
+        <a-entity id="hiro-venus-orbit" rotation="0 0 0">
+          <a-sphere src="planets/venus.jpg" radius="0.05" position="0.8 0 0"></a-sphere>
+        </a-entity>
+      </a-marker>
+
+      <!-- Маркер Kanji: Сонце, Меркурій, Венера, Земля -->
+      <a-marker preset="kanji" id="kanji-marker">
+        <!-- Сонце -->
+        <a-sphere src="planets/sun.jpg" radius="0.2" position="0 0 0"></a-sphere>
+
+        <!-- Орбіта Меркурія -->
+        <a-entity id="kanji-mercury-orbit" rotation="0 0 0">
+          <a-sphere src="planets/mercury.jpg" radius="0.05" position="0.5 0 0"></a-sphere>
+        </a-entity>
+
+        <!-- Орбіта Венери -->
+        <a-entity id="kanji-venus-orbit" rotation="0 0 0">
+          <a-sphere src="planets/venus.jpg" radius="0.05" position="0.8 0 0"></a-sphere>
+        </a-entity>
+
+        <!-- Орбіта Землі -->
+        <a-entity id="kanji-earth-orbit" rotation="0 0 0">
+          <a-sphere src="planets/earth.jpg" radius="0.06" position="1.1 0 0"></a-sphere>
+        </a-entity>
+      </a-marker>
+
+      <!-- Власний патерн: Сонце, Меркурій, Венера, Земля, Марс -->
+      <a-marker type="pattern" url="images/pattern-marker.patt" id="custom-marker">
+        <!-- Сонце -->
+        <a-sphere src="planets/sun.jpg" radius="0.2" position="0 0 0"></a-sphere>
+
+        <!-- Орбіта Меркурія -->
+        <a-entity id="custom-mercury-orbit" rotation="0 0 0">
+          <a-sphere src="planets/mercury.jpg" radius="0.05" position="0.5 0 0"></a-sphere>
+        </a-entity>
+
+        <!-- Орбіта Венери -->
+        <a-entity id="custom-venus-orbit" rotation="0 0 0">
+          <a-sphere src="planets/venus.jpg" radius="0.05" position="0.8 0 0"></a-sphere>
+        </a-entity>
+
+        <!-- Орбіта Землі -->
+        <a-entity id="custom-earth-orbit" rotation="0 0 0">
+          <a-sphere src="planets/earth.jpg" radius="0.06" position="1.1 0 0"></a-sphere>
+        </a-entity>
+
+        <!-- Орбіта Марса -->
+        <a-entity id="custom-mars-orbit" rotation="0 0 0">
+          <a-sphere src="planets/mars.jpg" radius="0.06" position="1.4 0 0"></a-sphere>
+        </a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      let angle = 0;
+
+      // Функція анімації для маркера Hiro
+      function animateHiro() {
+        const mercuryOrbit = document.querySelector('#hiro-mercury-orbit');
+        const venusOrbit = document.querySelector('#hiro-venus-orbit');
+
+        if (mercuryOrbit) {
+          mercuryOrbit.setAttribute('rotation', { x: 0, y: angle * 120, z: 0 }); // швидкість орбіти Меркурія
+        }
+        if (venusOrbit) {
+          venusOrbit.setAttribute('rotation', { x: 0, y: angle * 90, z: 0 }); // швидкість орбіти Венери
+        }
+      }
+
+      // Функція анімації для маркера Kanji
+      function animateKanji() {
+        const mercuryOrbit = document.querySelector('#kanji-mercury-orbit');
+        const venusOrbit = document.querySelector('#kanji-venus-orbit');
+        const earthOrbit = document.querySelector('#kanji-earth-orbit');
+
+        if (mercuryOrbit) {
+          mercuryOrbit.setAttribute('rotation', { x: 0, y: angle * 120, z: 0 });
+        }
+        if (venusOrbit) {
+          venusOrbit.setAttribute('rotation', { x: 0, y: angle * 90, z: 0 });
+        }
+        if (earthOrbit) {
+          earthOrbit.setAttribute('rotation', { x: 0, y: angle * 60, z: 0 }); // Земля повільніша
+        }
+      }
+
+      // Функція анімації для власного маркера
+      function animateCustom() {
+        const mercuryOrbit = document.querySelector('#custom-mercury-orbit');
+        const venusOrbit = document.querySelector('#custom-venus-orbit');
+        const earthOrbit = document.querySelector('#custom-earth-orbit');
+        const marsOrbit = document.querySelector('#custom-mars-orbit');
+
+        if (mercuryOrbit) {
+          mercuryOrbit.setAttribute('rotation', { x: 0, y: angle * 120, z: 0 });
+        }
+        if (venusOrbit) {
+          venusOrbit.setAttribute('rotation', { x: 0, y: angle * 90, z: 0 });
+        }
+        if (earthOrbit) {
+          earthOrbit.setAttribute('rotation', { x: 0, y: angle * 60, z: 0 });
+        }
+        if (marsOrbit) {
+          marsOrbit.setAttribute('rotation', { x: 0, y: angle * 40, z: 0 }); // Марс найповільніший
+        }
+      }
+
+      // Головна анімаційна функція
+      function animate() {
+        angle += 0.01;
+
+        animateHiro();
+        animateKanji();
+        animateCustom();
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>
